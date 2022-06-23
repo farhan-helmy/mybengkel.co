@@ -1,30 +1,30 @@
 <script setup>
 import { useRouter } from "vue-router";
-import { ref } from "vue";
-import { API_URL_LOCAL } from "../api/url";
+import { ref, watch } from "vue";
+import { useAuthStore } from "../stores/auth";
+
 let router = useRouter();
 
 const email = ref("");
 const password = ref("");
 
-const goRegister = () => {
-  router.push("/register");
-};
+const storeLogin = useAuthStore();
+
+watch(
+  () => storeLogin.token,
+  (token) => {
+    if(token){
+      router.push("/home")
+    };
+  }
+);
 
 const login = () => {
-  const data = {
-    email,
-    password,
-  };
-  fetch(`${API_URL_LOCAL}/users/login`, {
-    method: "POST", // or 'PUT'
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+  storeLogin.login(email.value, password.value);
+};
+
+const goRegister = () => {
+  router.push("/register");
 };
 </script>
 
@@ -48,7 +48,7 @@ const login = () => {
           <input
             v-model="email"
             type="text"
-            placeholder="Password"
+            placeholder="Email"
             class="input input-bordered w-full max-w-xs"
           />
         </div>

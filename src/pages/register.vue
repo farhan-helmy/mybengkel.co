@@ -1,25 +1,21 @@
 <script setup>
 import { ref, watch } from "vue";
+import { useAuthStore } from "../stores/auth";
 
 let email = ref("");
 let password = ref("");
 let password_confirm = ref("");
 let not_match = ref(false)
 
-watch(password, password_confirm, () =>{
-  
+watch(password_confirm, () =>{
+  if (password.value !== password_confirm.value) {
+    console.log('password didnt match')
+  }
+  console.log('password match')
 })
 
-const register = () => {
-  if(password !== password_confirm){
-    not_match = true
-  }
+const store = useAuthStore()
 
-  const body = {
-    email,
-    password
-  }
-}
 </script>
 
 <template>
@@ -42,7 +38,7 @@ const register = () => {
           <input
             v-model="email"
             type="text"
-            placeholder="Password"
+            placeholder="Email"
             class="input input-bordered w-full max-w-xs"
           />
           <label class="label">
@@ -60,7 +56,7 @@ const register = () => {
           <input
             v-model="password_confirm"
             type="password"
-            placeholder="Password"
+            placeholder="Confirm Password"
             class="input input-bordered w-full max-w-xs"
           />
         </div>

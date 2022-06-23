@@ -10,6 +10,7 @@
   "dependencies": {
     "@auth0/auth0-vue": "^1.0.0",
     "daisyui": "^2.9.0",
+    "pinia": "^2.0.14",
     "vue": "^3.2.25",
     "vue-router": "^4.0.14"
   },

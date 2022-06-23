@@ -10,13 +10,6 @@ let user_picture = ref("");
 const goHome = () => {
   router.push("/");
 };
-
-// onMounted(() => {
-//   console.log(isAuthenticated.value)
-//   if(!isAuthenticated.value){
-//     router.push("/")
-//   }
-// })
 </script>
 
 <template>
@@ -55,7 +48,7 @@ const goHome = () => {
               <div class="navbar-center">
                 <div class="flex flex-col w-full">
                   <div class="grid">
-                    <a class="btn btn-ghost normal-case text-xl">MyBengkel</a>
+                    <a class="btn btn-ghost normal-case text-xl">Keretaku</a>
                   </div>
                 </div>
               </div>
@@ -108,9 +101,9 @@ const goHome = () => {
             <div class="divider"></div>
 
             <!-- Sidebar content here -->
-            <li><a>Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li><a>History</a></li>
-            <li><a>Add Vehicle</a></li>
+            <li><a href="/add-vehicle">Add Vehicle</a></li>
             <li><a>Notifications</a></li>
             <li><button @click="goHome">Log out</button></li>
           </ul>

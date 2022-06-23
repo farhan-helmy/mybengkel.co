@@ -1,14 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-let router = useRouter()
-
+import { useCarStore } from "../../stores/car";
+//let router = useRouter()
+const props = defineProps<{ platenumber: string }>();
+const storeCar = useCarStore()
 onMounted(() => {
-  const token = localStorage.getItem('token')
-
-  if(!token){
-    router.push('login')
-  }
+  storeCar.getCarInfo(props.platenumber)
 })
 </script>
 

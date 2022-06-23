@@ -2,6 +2,7 @@ import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { createAuth0 } from '@auth0/auth0-vue';
+import { createPinia } from 'pinia';
 import App from './App.vue'
 
 import './styles/index.css'
@@ -21,6 +22,7 @@ export const createApp = ViteSSG(
     ({ app }) => {
       // install plugins etc.
       app.use(auth0)
+      app.use(createPinia())
     },
   )
   
