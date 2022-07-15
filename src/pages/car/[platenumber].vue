@@ -29,7 +29,7 @@ onMounted(() => {
     <div class="card-body items-center text-center">
       <h2 class="card-title">{{ platenumber.toUpperCase() }}</h2>
       <p>Odometer: {{ storeCar.car_info.odometer }}</p>
-      <p>Next service?</p>
+      <p>Next service: ??</p>
       <div class="card-actions">
         <button class="btn btn-primary" @click="goViewServices">View Services</button>
       </div>

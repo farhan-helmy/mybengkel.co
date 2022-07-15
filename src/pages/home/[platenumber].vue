@@ -2,43 +2,43 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useCarStore } from "../../stores/car";
-//let router = useRouter()
+let router = useRouter()
 const props = defineProps<{ platenumber: string }>();
-const storeCar = useCarStore()
+
+const storeCar = useCarStore();
+
+const goToAddService = () => {
+  router.push(`/add-service/${props.platenumber}`)
+}
+
 onMounted(() => {
-  storeCar.getCarInfo(props.platenumber)
-})
+  storeCar.getCars();
+  storeCar.getCarInfo(props.platenumber);
+});
 </script>
 
 <template>
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col w-full" v-if="storeCar.car_info">
     <div class="grid place-items-center my-4">
       <div class="dropdown">
-        <label tabindex="0" class="m-4">Plate Number</label>
+        <button tabindex="0" class="btn btn-warning">Choose Car</button>
         <ul
           tabindex="-1"
           class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li><a>WUR6262</a></li>
+          <li v-for="car in storeCar.cars" :key="car._id">
+            <a :href="`/home/${car.plate_number}`">{{
+              car.plate_number.toUpperCase()
+            }}</a>
+          </li>
         </ul>
       </div>
     </div>
 
-    <!-- <div class="flex w-full">
-      <div
-        class="grid h-20 flex-grow card place-items-top"
-      >
-        <p class="mx-2">Next service date</p>
-      </div>
-      <div class="divider divider-horizontal"></div>
-      <div
-        class="grid h-20 flex-grow card place-items-top"
-      >
-        <p class="mx-2">Odometer</p>
-      </div>
-    </div> -->
-
     <div class="overflow-x-auto">
+      <div class="flex flex-col w-full">
+        <div class="grid place-items-center my-4">{{ props.platenumber.toUpperCase() }}</div>
+      </div>
       <table class="table w-full">
         <!-- head -->
         <thead>
@@ -48,33 +48,14 @@ onMounted(() => {
             <th>Odometer</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- row 1 -->
-          <tr>
-            <th>😁</th>
-            <td>13/3/2021</td>
-            <td>1234</td>
-          </tr>
-          <!-- row 2 -->
-          <tr>
-            <th>😁</th>
-            <td>13/3/2021</td>
-            <td>1234</td>
-          </tr>
-          <!-- row 3 -->
-          <tr>
-            <th>😁</th>
-            <td>13/3/2021</td>
-            <td>1234</td>
-          </tr>
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
 
     <div class="flex w-full">
       <div class="grid h-20 flex-grow card place-items-center">
         <div class="tooltip tooltip-right" data-tip="Add service">
-          <button class="btn btn-primary btn-circle">+</button>
+          <button class="btn btn-primary btn-circle" @click="goToAddService">+</button>
         </div>
       </div>
     </div>
@@ -102,22 +83,13 @@ onMounted(() => {
               <td>WUR6262</td>
               <td><button class="btn btn-secondary">More</button></td>
             </tr>
-            <!-- row 2 -->
-            <tr>
-              <th>10/2/2021</th>
-              <td>MCK6262</td>
-              <td><button class="btn btn-secondary">More</button></td>
-            </tr>
-            <!-- row 3 -->
-            <tr>
-              <th>13/2/2021</th>
-              <td>ABC1234</td>
-              <td><button class="btn btn-secondary">More</button></td>
-            </tr>
           </tbody>
         </table>
       </div>
     </div>
+  </div>
+  <div class="flex flex-col w-full" v-else>
+    <h1>car not found</h1>
   </div>
 </template>
 

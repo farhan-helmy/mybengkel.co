@@ -1,27 +1,33 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-let router = useRouter()
+import { useCarStore } from "../../stores/car";
+let router = useRouter();
+const storeCar = useCarStore();
+
 
 onMounted(() => {
-  const token = localStorage.getItem('token')
+  storeCar.getCars();
+  const token = localStorage.getItem("token");
 
-  if(!token){
-    router.push('login')
+  if (!token) {
+    router.push("login");
   }
-})
+});
 </script>
 
 <template>
   <div class="flex flex-col w-full">
     <div class="grid place-items-center my-4">
       <div class="dropdown">
-        <label tabindex="0" class="m-4">Plate Number</label>
+        <button tabindex="0" class="btn btn-warning">Choose Car</button>
         <ul
           tabindex="-1"
           class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li><a>WUR6262</a></li>
+          <li v-for="car in storeCar.cars" :key="car._id">
+            <a :href="`/home/${car.plate_number}`">{{ car.plate_number.toUpperCase() }}</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -50,26 +56,7 @@ onMounted(() => {
             <th>Odometer</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- row 1 -->
-          <tr>
-            <th>😁</th>
-            <td>13/3/2021</td>
-            <td>1234</td>
-          </tr>
-          <!-- row 2 -->
-          <tr>
-            <th>😁</th>
-            <td>13/3/2021</td>
-            <td>1234</td>
-          </tr>
-          <!-- row 3 -->
-          <tr>
-            <th>😁</th>
-            <td>13/3/2021</td>
-            <td>1234</td>
-          </tr>
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
 
@@ -97,26 +84,7 @@ onMounted(() => {
               <th></th>
             </tr>
           </thead>
-          <tbody>
-            <!-- row 1 -->
-            <tr>
-              <th>13/2/2022</th>
-              <td>WUR6262</td>
-              <td><button class="btn btn-secondary">More</button></td>
-            </tr>
-            <!-- row 2 -->
-            <tr>
-              <th>10/2/2021</th>
-              <td>MCK6262</td>
-              <td><button class="btn btn-secondary">More</button></td>
-            </tr>
-            <!-- row 3 -->
-            <tr>
-              <th>13/2/2021</th>
-              <td>ABC1234</td>
-              <td><button class="btn btn-secondary">More</button></td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
     </div>
