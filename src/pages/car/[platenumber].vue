@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import { onMounted } from "@vue/runtime-core";
+import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { useCarStore } from "../../stores/car";
 
@@ -12,8 +12,8 @@ const goViewServices = () => {
   router.push(`/services/${props.platenumber}`)
 }
 
-onMounted(() => {
-  storeCar.getCarInfo(props.platenumber);
+onBeforeMount(async () => {
+  await storeCar.getCarInfo(props.platenumber);
 });
 </script>
 

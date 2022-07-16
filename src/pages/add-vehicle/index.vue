@@ -1,13 +1,10 @@
 <script setup>
-import { ref } from "@vue/reactivity";
-import { onMounted, onServerPrefetch } from "@vue/runtime-core";
+import { onBeforeMount, ref } from "vue";
 import { useRouter } from "vue-router";
-import { API_URL_LOCAL } from "../../api/url";
 import { useCarStore } from "../../stores/car";
 
 let router = useRouter();
 const plate_number = ref("");
-const is_car = ref(false);
 
 const storeCar = useCarStore();
 
@@ -16,11 +13,8 @@ const goToCar = (plate_number) => {
   router.push("/car/" + plate_number);
 };
 
-onMounted(() => {
-  storeCar.getCars();
-  if (storeCar.cars.length >= 0) {
-    is_car.value = true;
-  }
+onBeforeMount(async () => {
+  await storeCar.getCars();
 });
 </script>
 
@@ -54,7 +48,7 @@ onMounted(() => {
 
   <h1></h1>
   <div class="overflow-x-auto w-full">
-    <table class="table w-full" v-if="is_car">
+    <table class="table w-full" v-if="storeCar.cars">
       <!-- head -->
       <thead>
         <tr>
